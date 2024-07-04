@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="605.0" prefWidth="1048.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.rental.controller.ReturnMachineFormController">
+   <children>
+      <Text layoutX="30.0" layoutY="64.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Machine Return Manage">
+         <font>
+            <Font name="Calibri Bold" size="40.0" />
+         </font>
+      </Text>
+      <JFXButton fx:id="btnReturn" buttonType="RAISED" layoutX="152.0" layoutY="303.0" onAction="#btnReturnOnActionOnAction" prefHeight="43.0" prefWidth="170.0" style="-fx-background-color: #44bd32;" text="          Return" textAlignment="CENTER" textFill="WHITE">
+         <font>
+            <Font name="Calibri Bold" size="18.0" />
+         </font>
+      </JFXButton>
+      <Label fx:id="lblDescription" layoutX="642.0" layoutY="174.0" prefHeight="33.0" prefWidth="187.0">
+         <font>
+            <Font name="Calibri Bold" size="20.0" />
+         </font></Label>
+      <Text layoutX="536.0" layoutY="195.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Description:">
+         <font>
+            <Font name="Calibri Bold" size="20.0" />
+         </font>
+      </Text>
+      <ComboBox fx:id="cmbmachineId" layoutX="142.0" layoutY="178.0" onAction="#cmbmachineIdOnAction" prefHeight="43.0" prefWidth="187.0" />
+      <Text layoutX="145.0" layoutY="153.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Machine_Id">
+         <font>
+            <Font name="Calibri Bold" size="18.0" />
+         </font>
+      </Text>
+      <ImageView fitHeight="43.0" fitWidth="49.0" layoutX="152.0" layoutY="303.0">
+         <image>
+            <Image url="@../asserts/animated%20icons/icons8-return%20animated.gif" />
+         </image>
+      </ImageView>
+      <Label fx:id="lblMachineName" layoutX="668.0" layoutY="236.0" prefHeight="33.0" prefWidth="187.0">
+         <font>
+            <Font name="Calibri Bold" size="20.0" />
+         </font>
+      </Label>
+      <Text layoutX="536.0" layoutY="257.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Machine Name:">
+         <font>
+            <Font name="Calibri Bold" size="20.0" />
+         </font>
+      </Text>
+      <Label fx:id="lblDate" layoutX="594.0" layoutY="38.0" prefHeight="33.0" prefWidth="187.0">
+         <font>
+            <Font name="Calibri Bold" size="20.0" />
+         </font>
+      </Label>
+      <Text layoutX="544.0" layoutY="59.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date:">
+         <font>
+            <Font name="Calibri Bold" size="20.0" />
+         </font>
+      </Text>
+      <Text layoutX="536.0" layoutY="318.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Customer Name:">
+         <font>
+            <Font name="Calibri Bold" size="20.0" />
+         </font>
+      </Text>
+      <Label fx:id="lblcusname" layoutX="676.0" layoutY="295.0" prefHeight="33.0" prefWidth="187.0">
+         <font>
+            <Font name="Calibri Bold" size="20.0" />
+         </font>
+      </Label>
+      <Text layoutX="536.0" layoutY="378.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Customer ID:">
+         <font>
+            <Font name="Calibri Bold" size="20.0" />
+         </font>
+      </Text>
+      <Label fx:id="lblcusId" layoutX="651.0" layoutY="355.0" prefHeight="33.0" prefWidth="187.0">
+         <font>
+            <Font name="Calibri Bold" size="20.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
