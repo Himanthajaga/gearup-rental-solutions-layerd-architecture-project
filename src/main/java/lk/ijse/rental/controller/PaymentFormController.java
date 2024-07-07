@@ -16,6 +16,7 @@ import lk.ijse.rental.bo.BOFactory;
 import lk.ijse.rental.bo.custom.BuildingMaterialBO;
 import lk.ijse.rental.bo.custom.PaymentBO;
 import lk.ijse.rental.bo.custom.SupplierBO;
+import lk.ijse.rental.dto.MechanicDTO;
 import lk.ijse.rental.dto.PaymentDTO;
 import lk.ijse.rental.dto.SupplierDTO;
 import lk.ijse.rental.entity.BuildingMaterial;
@@ -104,6 +105,26 @@ public class PaymentFormController {
         loadNextOrderId();
         setDate();
         getSupplierEmails();
+        setListener();
+    }
+    private void setListener() {
+        tblPayment.getSelectionModel().selectedItemProperty()
+                .addListener((observable, oldValue, newValue) -> {
+                    PaymentDTO dto = new PaymentDTO(
+                            newValue.getColPaymentId(),
+                            newValue.getColPaymentType(),
+                            newValue.getColSEmail(),
+                            newValue.getColPaymentAmount()
+                    );
+                    setFields(dto);
+                });
+    }
+
+    private void setFields(PaymentDTO dto) {
+        lblSellId.setText(dto.getPaymentId());
+        lblPayType.setText(dto.getPaymentType());
+        cmbCustomerEmail.setValue(dto.getS_email());
+        txtPaymentAmount.setText(String.valueOf(dto.getPaymentAmount()));
     }
 
     @FXML

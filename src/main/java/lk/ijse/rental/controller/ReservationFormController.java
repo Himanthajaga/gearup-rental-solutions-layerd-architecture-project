@@ -10,11 +10,13 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import lk.ijse.rental.bo.BOFactory;
 import lk.ijse.rental.bo.custom.ReservationBO;
+import lk.ijse.rental.dto.PaymentDTO;
 import lk.ijse.rental.dto.ReservationDTO;
 import lk.ijse.rental.entity.Reservation;
 import lk.ijse.rental.tdm.ReservationTm;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -56,6 +58,24 @@ public class ReservationFormController {
         setCellValueFactory();
         loadReservationTable();
         loadNextReservationid();
+        setListener();
+    }
+    private void setListener() {
+        tblReservation.getSelectionModel().selectedItemProperty()
+                .addListener((observable, oldValue, newValue) -> {
+                    ReservationDTO dto = new ReservationDTO(
+                            newValue.getColReservationId(),
+                            newValue.getColReservationType(),
+                            newValue.getColReservationDate()
+                    );
+                    setFields(dto);
+                });
+    }
+
+    private void setFields(ReservationDTO dto) {
+        txtReservationIdnew.setText(dto.getR_id());
+        txtReservationType.setText(dto.getR_type());
+        reseerDate.setValue(LocalDate.parse(dto.getR_date()));
     }
 
     private void loadNextReservationid() throws SQLException, ClassNotFoundException {

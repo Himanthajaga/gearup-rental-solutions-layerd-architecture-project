@@ -11,6 +11,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import lk.ijse.rental.bo.BOFactory;
 import lk.ijse.rental.bo.custom.MachineBO;
+import lk.ijse.rental.dto.CustomerDTO;
 import lk.ijse.rental.dto.MachineDTO;
 import lk.ijse.rental.entity.Machine;
 import lk.ijse.rental.qrGenerate.QrcodeForMachine;
@@ -83,6 +84,29 @@ public class MachineFormController {
         setCellValueFactory();
         loadMachineTable();
         loadNextMachineId();
+        setListener();
+    }
+    private void setListener() {
+        tblMachine.getSelectionModel().selectedItemProperty()
+                .addListener((observable, oldValue, newValue) -> {
+                    MachineDTO dto = new MachineDTO(
+                            newValue.getColMachineId(),
+                            newValue.getColMachineName(),
+                            newValue.getColMachineDescription(),
+                            newValue.getColMachineRentalPrice(),
+                            newValue.getColMachineIsAvailable(),
+                            "0");
+                    setFields(dto);
+                });
+    }
+
+    private void setFields(MachineDTO dto) {
+
+        txtMachineIdNew.setText(dto.getM_Id());
+        txtMachineName.setText(dto.getM_Name());
+        txtDesc.setText(dto.getM_desc());
+        txtRentalprice.setText(dto.getM_rental_price());
+        txtisavailable.setText(dto.getIsAvaiable());
     }
 
     private void loadNextMachineId() throws SQLException, ClassNotFoundException {

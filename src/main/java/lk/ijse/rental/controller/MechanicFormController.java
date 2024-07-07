@@ -10,6 +10,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import lk.ijse.rental.bo.BOFactory;
 import lk.ijse.rental.bo.custom.MechanicBO;
+import lk.ijse.rental.dto.AdminDTO;
 import lk.ijse.rental.dto.MechanicDTO;
 import lk.ijse.rental.entity.Mechanic;
 import lk.ijse.rental.qrGenerate.QrcodeForMachine;
@@ -82,8 +83,31 @@ public class MechanicFormController {
         setCellValueFactory();
         loadMechanicTable();
         loadNextMechanicId();
+        setListener();
+    }
+    private void setListener() {
+        tblMechanic.getSelectionModel().selectedItemProperty()
+                .addListener((observable, oldValue, newValue) -> {
+                    MechanicDTO dto = new MechanicDTO(
+                            newValue.getColMId(),
+                            newValue.getColMName(),
+                            newValue.getColMAddress(),
+                            newValue.getColMTele(),
+                            newValue.getColMDesc(),
+                            newValue.getColMSalary()
+                    );
+                    setFields(dto);
+                });
     }
 
+    private void setFields(MechanicDTO dto) {
+        txtMidnew.setText(dto.getMec_id());
+        txtMName.setText(dto.getMec_name());
+        txtMAddress.setText(dto.getMec_address());
+        txtMTele.setText(dto.getMec_tel());
+        txtMDescription.setText(dto.getMec_desc());
+        txtMSalary.setText(dto.getMec_salary());
+    }
     private void loadNextMechanicId() throws SQLException, ClassNotFoundException {
         String lastMachineId = mechanicBO.getLastMechanicId();
         if (lastMachineId != null) {

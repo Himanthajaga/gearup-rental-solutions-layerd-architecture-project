@@ -13,6 +13,7 @@ import lk.ijse.rental.bo.BOFactory;
 import lk.ijse.rental.bo.custom.BokkingBO;
 import lk.ijse.rental.bo.custom.CustomerBO;
 import lk.ijse.rental.bo.custom.MachineBO;
+import lk.ijse.rental.dto.AdminDTO;
 import lk.ijse.rental.dto.BokkingDTO;
 import lk.ijse.rental.entity.Bokking;
 import lk.ijse.rental.entity.Customer;
@@ -20,6 +21,7 @@ import lk.ijse.rental.entity.Machine;
 import lk.ijse.rental.tdm.BokkingTm;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -90,6 +92,26 @@ public class BokkingFormController {
         getCustomerIds();
         getMachineIds();
         loadNextBokkingId();
+        setListener();
+    }
+    private void setListener() {
+        tblBokking.getSelectionModel().selectedItemProperty()
+                .addListener((observable, oldValue, newValue) -> {
+                    BokkingDTO dto = new BokkingDTO(
+                            newValue.getColBokkingId(),
+                            newValue.getColBokkingDate(),
+                            newValue.getColCustomerEmail(),
+                            newValue.getColMachineId()
+                    );
+                    setFields(dto);
+                });
+    }
+
+    private void setFields(BokkingDTO dto) {
+        txtBokkingId.setText(dto.getBokkingId());
+        txtBokkkingDate.setValue(LocalDate.parse(dto.getBokkingDate()));
+        cmbCustomerID.setValue(dto.getCustomerEmail());
+        cmbMachineId.setValue(dto.getMachineId());
     }
 
     private void loadNextBokkingId() throws SQLException, ClassNotFoundException {

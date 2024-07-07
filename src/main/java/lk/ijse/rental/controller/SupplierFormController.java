@@ -13,6 +13,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import lk.ijse.rental.bo.BOFactory;
 import lk.ijse.rental.bo.custom.SupplierBO;
+import lk.ijse.rental.dto.ReservationDTO;
 import lk.ijse.rental.dto.SupplierDTO;
 import lk.ijse.rental.entity.Supplier;
 import lk.ijse.rental.qrGenerate.QrcodeForMachine;
@@ -20,6 +21,7 @@ import lk.ijse.rental.tdm.SupplierTm;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -87,6 +89,28 @@ public class SupplierFormController {
         setCellValueFactory();
         loadSupplierTable();
         loadNextSupplierId();
+        setListener();
+    }
+    private void setListener() {
+        tblSupplier.getSelectionModel().selectedItemProperty()
+                .addListener((observable, oldValue, newValue) -> {
+                    SupplierDTO dto = new SupplierDTO(
+                            newValue.getColSupplierId(),
+                            newValue.getColSupplierName(),
+                            newValue.getColSupplierAddress(),
+                            newValue.getColSupplierTele(),
+                            newValue.getColSupplierEmail()
+                    );
+                    setFields(dto);
+                });
+    }
+
+    private void setFields(SupplierDTO dto) {
+        txtSupplierIdnew.setText(dto.getS_id());
+        txtSupplierName.setText(dto.getS_name());
+        txtSupplierAdddress.setText(dto.getS_address());
+        txtSupplierTele.setText(dto.getS_tel());
+        txtSupplierEmail.setText(dto.getS_email());
     }
 
     private void loadNextSupplierId() throws SQLException, ClassNotFoundException {

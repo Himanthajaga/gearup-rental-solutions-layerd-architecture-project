@@ -10,6 +10,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import lk.ijse.rental.bo.BOFactory;
 import lk.ijse.rental.bo.custom.BuildingMaterialBO;
+import lk.ijse.rental.dto.AdminDTO;
 import lk.ijse.rental.dto.BuildingMaterialDTO;
 import lk.ijse.rental.entity.BuildingMaterial;
 import lk.ijse.rental.qrGenerate.QrcodeForMachine;
@@ -77,6 +78,29 @@ public class BuildingMaterialFormController {
         setCellValueFactory();
         loadBuildingMaterialTable();
         loadNextBuildingMaterialId();
+        setListener();
+    }
+    private void setListener() {
+        tblMaterial.getSelectionModel().selectedItemProperty()
+                .addListener((observable, oldValue, newValue) -> {
+                    BuildingMaterialDTO dto = new BuildingMaterialDTO(
+                            newValue.getColMaterialId(),
+                            newValue.getColMaterialdescription(),
+                            newValue.getColMaterialType(),
+                            newValue.getColMaterialPrice(),
+                            newValue.getColMaterialQty(),
+                            txtSupplierEmail.getText()
+                    );
+                    setFields(dto);
+                });
+    }
+
+    private void setFields(BuildingMaterialDTO dto) {
+        txtMaterialId.setText(dto.getBm_id());
+        txtMateriaDescription.setText(dto.getBm_desc());
+        txtMaterialType.setText(dto.getBm_type());
+        txtMaterialPrice.setText(dto.getBm_price());
+        txtMaterialQty.setText(String.valueOf(dto.getBm_qty()));
     }
 
     private void loadNextBuildingMaterialId() throws SQLException, ClassNotFoundException {

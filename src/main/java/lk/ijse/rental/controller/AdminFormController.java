@@ -11,6 +11,7 @@ import javafx.scene.input.KeyEvent;
 import lk.ijse.rental.bo.BOFactory;
 import lk.ijse.rental.bo.custom.AdminBO;
 import lk.ijse.rental.dto.AdminDTO;
+import lk.ijse.rental.dto.CustomerDTO;
 import lk.ijse.rental.entity.Admin;
 import lk.ijse.rental.qrGenerate.QrcodeForMachine;
 import lk.ijse.rental.tdm.AdminTm;
@@ -81,6 +82,27 @@ public class AdminFormController {
         setCellValueFactory();
         loadAdminTable();
         loadNextAdminId();
+        setListener();
+    }
+    private void setListener() {
+        tblAdmin.getSelectionModel().selectedItemProperty()
+                .addListener((observable, oldValue, newValue) -> {
+                    AdminDTO dto = new AdminDTO(
+                            newValue.getCola_id(),
+                            newValue.getCola_name(),
+                            newValue.getCola_password(),
+                            newValue.getCola_ConfirmPasswors(),
+                            newValue.getCola_Email());
+                    setFields(dto);
+                });
+    }
+
+    private void setFields(AdminDTO dto) {
+        txtAid.setText(dto.getA_id());
+        txtName.setText(dto.getA_name());
+        txtPassword.setText(dto.getA_password());
+        txtConfirmPassword.setText(dto.getA_confirmPassword());
+        txtEmail.setText(dto.getA_email());
     }
 
     private void loadNextAdminId() throws SQLException, ClassNotFoundException {

@@ -79,6 +79,28 @@ public class CustomerFormController {
         setCellValueFactory();
         loadCustomerTable();
         loadnextCusId();
+        setListener();
+    }
+    private void setListener() {
+        tblCustomer.getSelectionModel().selectedItemProperty()
+                .addListener((observable, oldValue, newValue) -> {
+                    CustomerDTO dto = new CustomerDTO(
+                            newValue.getColCustomerEmail(),
+                            newValue.getColName(),
+                            newValue.getColAddress(),
+                            newValue.getColTelephone(),
+                            newValue.getColCustomerId());
+                    setFields(dto);
+                });
+    }
+
+    private void setFields(CustomerDTO dto) {
+
+        txtEmail.setText(dto.getC_mail());
+        txtName.setText(dto.getC_name());
+        txtAddress.setText(dto.getC_address());
+        txtTele.setText(dto.getC_tel());
+        txtCId.setText(dto.getC_id());
     }
 
     private void loadnextCusId() throws SQLException, ClassNotFoundException {
@@ -121,7 +143,7 @@ public class CustomerFormController {
     }
 
     private void loadCustomerTable() {
-        tblCustomer.getItems().clear();
+        //tblCustomer.getItems().clear();
 
         ObservableList<CustomerTm> tmList = FXCollections.observableArrayList();
 
@@ -285,11 +307,11 @@ public class CustomerFormController {
             boolean isUpdated = customerBO.updateCustomer(new CustomerDTO(customer.getC_mail(), customer.getC_name(), customer.getC_address(), customer.getC_tel(), customer.getC_id()));
             if (isUpdated) {
                 new Alert(Alert.AlertType.CONFIRMATION, "customer updated!").show();
-               Platform.runLater(()->{
-                   loadCustomerTable();
-               });
+                //Platform.runLater(()->{
+                loadCustomerTable();
                 clearFeilds();
             }
+
         } catch (SQLException | ClassNotFoundException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
         }
