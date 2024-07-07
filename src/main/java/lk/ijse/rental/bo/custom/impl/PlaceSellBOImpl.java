@@ -19,6 +19,7 @@ import lk.ijse.rental.entity.SellMaterial;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class PlaceSellBOImpl implements PlaceSellBO {
     CustomerDAO customerDAO = (CustomerDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.Customer);
@@ -76,19 +77,76 @@ public class PlaceSellBOImpl implements PlaceSellBO {
 
     @Override
     public boolean placeSell(SellDTO dto) throws SQLException, ClassNotFoundException {
-        Connection connection = null;
+            Connection connection = null;
+            try {
+                connection = DBConnection.getDbConnection().getConnection();
+                connection.setAutoCommit(false);
+
+                boolean sellExists = sellDAO.exist(dto.getSellId());
+                if (sellExists) {
+                    return false;
+                }
+
+                Sell sell = new Sell(dto.getSellId(), dto.getSellDate(), dto.getC_email(), dto.getTotal());
+                boolean sellAdded = sellDAO.add(sell);
+                if (!sellAdded) {
+                    connection.rollback();
+                    return false;
+                }
+
+                for (SellMaterialDTO d : dto.getSellMaterials()) {
+                    SellMaterial sellMaterial = new SellMaterial(d.getSellId(), d.getBmId(), d.getBm_unit_price(), d.getBm_qty());
+                    boolean sellMaterialAdded = sellMaterialDAO.add(sellMaterial);
+                    if (!sellMaterialAdded) {
+                        connection.rollback();
+                        return false;
+                    }
+
+                    BuildingMaterial buildingMaterial = buildingMaterialDAO.search(d.getBmId());
+
+                    int newQuantity = (int) (buildingMaterial.getBm_qty() - d.getBm_qty());
+
+                    buildingMaterial.setBm_qty(newQuantity);
+                    boolean materialUpdated = buildingMaterialDAO.updateQty(buildingMaterial);
+
+                    if (!materialUpdated) {
+                        connection.rollback();
+                        return false;
+                    }
+                }
+
+
+                connection.commit();
+                return true;
+            } catch (SQLException | ClassNotFoundException e) {
+                if (connection != null) {
+                    connection.rollback();
+                }
+                e.printStackTrace();
+                return false;
+            } finally {
+                if (connection != null) {
+                    connection.setAutoCommit(true);
+                }
+            }
+        }
+        /* Connection connection = null;
         try {
             connection = DBConnection.getDbConnection().getConnection();
             boolean b1 = sellDAO.exist(dto.getSellId());
             System.out.println("exist baluwa");
-            /*if order id already exist*/
+           // if order id already exist
             if (b1) {
                 return false;
             }
             connection.setAutoCommit(false);
             //Save the Order to the sell table
+            System.out.println(dto.getC_email());
             boolean b2 = sellDAO.add(new Sell(dto.getSellId(), dto.getSellDate(), dto.getC_email(), dto.getTotal()));
             System.out.println("order ek add una");
+
+
+
             if (!b2) {
                 connection.rollback();
                 connection.setAutoCommit(true);
@@ -103,11 +161,11 @@ public class PlaceSellBOImpl implements PlaceSellBO {
                     return false;
                     //Search & Update Item
                 }
-                BuildingMaterial buildingMaterial = buildingMaterialDAO.search(d.getBmId());
+                BuildingMaterialDTO buildingMaterial = findBuildingmaterial(d.getBmId());
                     buildingMaterial.setBm_qty((int) (buildingMaterial.getBm_qty() - d.getBm_qty()));
 
                     //update item
-                    boolean b = buildingMaterialDAO.update(new BuildingMaterial(buildingMaterial.getBm_id(), buildingMaterial.getBm_desc(), buildingMaterial.getBm_type(), buildingMaterial.getBm_price(), buildingMaterial.getBm_qty(), buildingMaterial.getS_email()));
+                    boolean b = buildingMaterialDAO.updateQtys((List<SellMaterial>) new BuildingMaterial(buildingMaterial.getBm_id(), buildingMaterial.getBm_desc(), buildingMaterial.getBm_type(), buildingMaterial.getBm_price(), buildingMaterial.getBm_qty(), buildingMaterial.getS_email()));
 
                 if (!b) {
                     connection.rollback();
@@ -125,8 +183,45 @@ public class PlaceSellBOImpl implements PlaceSellBO {
             e.printStackTrace();
         }
         return false;
-    }
+    }*/
+/*
+        Connection connection = DBConnection.getInstance().getConnection();
+        connection.setAutoCommit(false);
 
+        try {
+
+            boolean isSellSaved = sellDAO.add(new Sell(dto.getSellId(), dto.getSellDate(), dto.getC_email(), dto.getTotal()));
+
+            if (isSellSaved) {
+                boolean isSellMaterialSaved = sellMaterialDAO.add((SellMaterial) dto.getSellMaterials());
+
+
+                if (isSellMaterialSaved) {
+                    List<SellMaterial> sellMaterials = new ArrayList<>();
+                    for (SellMaterialDTO dto : dto.getSellMaterials()) {
+                        sellMaterials.add(new SellMaterial(dto.getSellId(), dto.getBmId(), dto.getBm_unit_price(), dto.getBm_qty()));
+                    }
+                    boolean isItemQtyUpdate = buildingMaterialDAO.updateQtys(dto.getSellMaterials(),List<SellMaterial> sellMaterials);
+
+                    System.out.println(isItemQtyUpdate);
+
+                    if (isItemQtyUpdate) {
+
+                        connection.commit();
+                        return true;
+                    }
+                }
+            }
+            connection.rollback();
+            return false;
+        } catch (Exception e) {
+            connection.rollback();
+            e.printStackTrace();
+            return false;
+        } finally {
+            connection.setAutoCommit(true);
+        }
+    }*/
 
     @Override
     public BuildingMaterialDTO findBuildingmaterial(String code) throws SQLException, ClassNotFoundException {

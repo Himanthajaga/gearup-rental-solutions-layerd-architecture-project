@@ -286,8 +286,8 @@ public class SellFormController {
     }
 
     private void clearfields() {
-        cmbMaterialId.setValue(null);
-        cmbCustomerEmail.setValue(null);
+        cmbMaterialId.getSelectionModel().clearSelection();
+        cmbCustomerEmail.getSelectionModel().clearSelection();
         lblMaterialDescription.setText("");
         lblUnitprice.setText("");
         txtMaterialQty.clear();
@@ -298,10 +298,15 @@ public class SellFormController {
     void btnPayOnAction(ActionEvent event) {
         String orderId = lblSellId.getText();
         Date orderDate = Date.valueOf(lblOrderDate.getText());
-        String customerId = cmbMaterialId.getValue();
+        String customerId = cmbCustomerEmail.getValue();
         double total = Double.parseDouble(lblNetTotal.getText());
 
         List<SellMaterialDTO> sellMaterial = TblMaterialcartList.stream().map(tm -> new SellMaterialDTO(orderId, tm.getColMaterialId(), tm.getColUnitPrice(), tm.getColQty())).collect(Collectors.toList());
+
+
+
+
+
 
         SellDTO SellDTO = new SellDTO(orderId, orderDate, customerId, total, sellMaterial);
         PlaceSellDTO placeSellDTO = new PlaceSellDTO(SellDTO, sellMaterial);
@@ -329,30 +334,34 @@ public class SellFormController {
     @FXML
     void cmbCustomerIdOnAction(ActionEvent event) {
         String email = cmbCustomerEmail.getValue();
-        try {
-            Customer customer = customerBO.searchByEmail(email);
-            if (customer != null) {
-                lblCustomerName.setText(customer.getC_name());
-            } else {
-                new Alert(Alert.AlertType.INFORMATION, "Customer is not found!").show();
+        if (email!=null) {
+            try {
+                Customer customer = customerBO.searchByEmail(email);
+                if (customer != null) {
+                    lblCustomerName.setText(customer.getC_name());
+                } else {
+                    new Alert(Alert.AlertType.INFORMATION, "Customer is not found!").show();
+                }
+            } catch (SQLException | ClassNotFoundException e) {
+                throw new RuntimeException(e);
             }
-        } catch (SQLException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
         }
     }
 
     @FXML
     void cmbMaterialIdOnaction(ActionEvent event) {
         String code = cmbMaterialId.getValue();
-        try {
-            BuildingMaterial buildingMaterial = buildingMaterialBO.search(code);
-            if (buildingMaterial != null) {
-                lblMaterialDescription.setText(buildingMaterial.getBm_desc());
-                lblUnitprice.setText(String.valueOf(buildingMaterial.getBm_price()));
-                lblQtyOnHand.setText(String.valueOf(buildingMaterial.getBm_qty()));
+        if (code!=null){
+            try {
+                BuildingMaterial buildingMaterial = buildingMaterialBO.search(code);
+                if (buildingMaterial != null) {
+                    lblMaterialDescription.setText(buildingMaterial.getBm_desc());
+                    lblUnitprice.setText(String.valueOf(buildingMaterial.getBm_price()));
+                    lblQtyOnHand.setText(String.valueOf(buildingMaterial.getBm_qty()));
+                }
+            } catch (SQLException | ClassNotFoundException e) {
+                throw new RuntimeException(e);
             }
-        } catch (SQLException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
         }
     }
 

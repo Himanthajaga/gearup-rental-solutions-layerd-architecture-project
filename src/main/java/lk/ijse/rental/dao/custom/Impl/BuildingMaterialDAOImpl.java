@@ -2,9 +2,12 @@ package lk.ijse.rental.dao.custom.Impl;
 
 import lk.ijse.rental.dao.SQLUtil;
 import lk.ijse.rental.dao.custom.BuildingMaterialDAO;
+import lk.ijse.rental.db.DBConnection;
+import lk.ijse.rental.dto.SellMaterialDTO;
 import lk.ijse.rental.entity.BuildingMaterial;
 import lk.ijse.rental.entity.SellMaterial;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -32,7 +35,7 @@ public class BuildingMaterialDAOImpl implements BuildingMaterialDAO {
 
     @Override
     public boolean update(BuildingMaterial entity) throws SQLException, ClassNotFoundException {
-        return SQLUtil.execute("UPDATE building_material SET bm_desc = ?,bm_type=?,bm_price = ?,bm_amount = ?,s_email WHERE bm_id = ?", entity.getBm_desc(), entity.getBm_type(), entity.getBm_price(), entity.getBm_qty(), entity.getS_email(), entity.getBm_id());
+        return SQLUtil.execute("UPDATE building_material SET bm_desc = ?,bm_type = ?,bm_price = ?,bm_amount = ?,s_email = ? WHERE bm_id = ?", entity.getBm_desc(), entity.getBm_type(), entity.getBm_price(), entity.getBm_qty(), entity.getS_email(), entity.getBm_id());
     }
 
     @Override
@@ -105,18 +108,24 @@ public class BuildingMaterialDAOImpl implements BuildingMaterialDAO {
     }
 
     @Override
-    public boolean updateQtys(List<SellMaterial>odList) throws SQLException, ClassNotFoundException {
-        for (SellMaterial od : odList) {
-            if (!updateQty(od)) {
-                return false;
-            }
+    public boolean updateQtys(List<SellMaterialDTO> odList) throws SQLException, ClassNotFoundException {
+//            if (odList == null) {
+//                // Log that odList is null
+//                System.out.println("updateQtys was called with a null odList.");
+//                return false;
+//            }
+//            for (SellMaterialDTO od : odList) {
+//                if (!updateQty(od)) {
+//                    // Log which specific update failed, if possible
+//                    System.out.println("Failed to update quantity for SellMaterial with ID: " + od.getBmId());
+//                    return false;
+//                }
+//            }
+            return true;
         }
-        return true;
-    }
-
 
     @Override
-    public boolean updateQty(SellMaterial od) throws SQLException, ClassNotFoundException {
-        return SQLUtil.execute("UPDATE building_material SET bm_amount = bm_amount - ? WHERE bm_id = ?", od.getBm_qty(), od.getBmId());
+    public boolean updateQty( BuildingMaterial  bm) throws SQLException, ClassNotFoundException {
+        return SQLUtil.execute("UPDATE building_material SET bm_amount = ? WHERE bm_id = ?", bm.getBm_qty(), bm.getBm_id());
     }
 }

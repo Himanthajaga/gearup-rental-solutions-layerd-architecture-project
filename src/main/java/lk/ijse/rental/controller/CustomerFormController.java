@@ -1,6 +1,7 @@
 package lk.ijse.rental.controller;
 
 import com.jfoenix.controls.JFXButton;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -120,6 +121,7 @@ public class CustomerFormController {
     }
 
     private void loadCustomerTable() {
+        tblCustomer.getItems().clear();
 
         ObservableList<CustomerTm> tmList = FXCollections.observableArrayList();
 
@@ -283,7 +285,9 @@ public class CustomerFormController {
             boolean isUpdated = customerBO.updateCustomer(new CustomerDTO(customer.getC_mail(), customer.getC_name(), customer.getC_address(), customer.getC_tel(), customer.getC_id()));
             if (isUpdated) {
                 new Alert(Alert.AlertType.CONFIRMATION, "customer updated!").show();
-                loadCustomerTable();
+               Platform.runLater(()->{
+                   loadCustomerTable();
+               });
                 clearFeilds();
             }
         } catch (SQLException | ClassNotFoundException e) {

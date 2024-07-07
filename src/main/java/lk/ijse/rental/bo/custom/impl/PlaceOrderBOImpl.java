@@ -3,10 +3,7 @@ package lk.ijse.rental.bo.custom.impl;
 import lk.ijse.rental.bo.custom.PlaceOrderBO;
 import lk.ijse.rental.dao.CrudDAO;
 import lk.ijse.rental.dao.DAOFactory;
-import lk.ijse.rental.dao.custom.CustomerDAO;
-import lk.ijse.rental.dao.custom.MachineDAO;
-import lk.ijse.rental.dao.custom.OrderDetailDAO;
-import lk.ijse.rental.dao.custom.RentOrderDAO;
+import lk.ijse.rental.dao.custom.*;
 import lk.ijse.rental.db.DBConnection;
 import lk.ijse.rental.dto.CustomerDTO;
 import lk.ijse.rental.dto.MachineDTO;
@@ -82,7 +79,7 @@ public class PlaceOrderBOImpl implements PlaceOrderBO {
         try {
             connection = DBConnection.getDbConnection().getConnection();
             boolean b1 = rentOrderDAO.exist(dto.getOrderId());
-            /*if order id already exist*/
+            //if order id already exist
             if (b1) {
                 return false;
             }
