@@ -294,10 +294,10 @@ public class BokkingFormController {
         }
         Bokking bokking = new Bokking(bokkingId, bokkingDate,customerId,machineId);
         try {
-            boolean isAdded = bokkingBO.addBokking(new BokkingDTO(bokkingId, bokkingDate,customerId,machineId));
+            boolean isAdded = bokkingBO.addBokking(new BokkingDTO(bokking.getBokkingId(),bokking.getBokkingDate(),bokking.getCustomerEmail(),bokking.getMachineId()));
             if (isAdded) {
                 new Alert(Alert.AlertType.CONFIRMATION, "Saved..").show();
-                bokkingList.add(new BokkingDTO(bokkingId, bokkingDate,customerId,machineId));
+                bokkingList.add(new BokkingDTO(bokking.getBokkingId(),bokking.getBokkingDate(),bokking.getCustomerEmail(),bokking.getMachineId()));
                 loadBokkingTable();
                 clearFields();
             } else {
@@ -315,12 +315,16 @@ public class BokkingFormController {
         String bokkingDate = txtBokkkingDate.getValue().toString();
         String customerId = lblCustomerId.getText();
         String machineId = lblMachineId.getText();
-        Bokking bokking = new Bokking(bokkingId, bokkingDate,customerId,machineId);
+        if (customerId == null || machineId == null) {
+            new Alert(Alert.AlertType.WARNING, "Please select a customer and machine").show();
+            return;
+        }
+        Bokking bokking = new Bokking(bokkingId,bokkingDate,customerId,machineId);
         try {
-            boolean isUpdated = bokkingBO.updateBokking(new BokkingDTO(bokkingId, bokkingDate,customerId,machineId));
+            boolean isUpdated = bokkingBO.updateBokking(new BokkingDTO(bokking.getBokkingId(),bokking.getBokkingDate(),bokking.getCustomerEmail(),bokking.getMachineId()));
             if (isUpdated) {
                 new Alert(Alert.AlertType.CONFIRMATION, "Updated..").show();
-                bokkingList.add(new BokkingDTO(bokkingId, bokkingDate,customerId,machineId));
+                bokkingList.add(new BokkingDTO(bokking.getBokkingId(),bokking.getBokkingDate(),bokking.getCustomerEmail(),bokking.getMachineId()));
                 loadBokkingTable();
                 clearFields();
             } else {

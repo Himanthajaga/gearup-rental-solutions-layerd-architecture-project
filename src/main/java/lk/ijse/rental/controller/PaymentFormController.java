@@ -206,9 +206,9 @@ public class PaymentFormController {
         String paymentAmount = txtPaymentAmount.getText();
         Payment payment = new Payment(paymentId, paymentType, s_email, Double.parseDouble(paymentAmount));
         try {
-            boolean isAdded = paymentBO.addPayment(new PaymentDTO(paymentId, paymentType, s_email, Double.parseDouble(paymentAmount)));
+            boolean isAdded = paymentBO.addPayment(new PaymentDTO(payment.getPaymentId(), payment.getPaymentType(), payment.getS_email(), payment.getPaymentAmount()));
             if (isAdded) {
-                paymentList.add(new PaymentDTO(paymentId, paymentType, s_email, Double.parseDouble(paymentAmount)));
+                paymentList.add(new PaymentDTO(payment.getPaymentId(), payment.getPaymentType(), payment.getS_email(), payment.getPaymentAmount()));
                 loadPaymentTable();
                 loadNextOrderId();
             }

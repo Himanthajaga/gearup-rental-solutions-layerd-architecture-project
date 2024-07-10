@@ -8,10 +8,11 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class SupplierTm {
-    private String colSupplierEmail;
+    private String colSupplierId;
     private String colSupplierName;
     private String colSupplierAddress;
     private String colSupplierTele;
-    private String colSupplierId;
+    private String colSupplierEmail;
+
 
 }

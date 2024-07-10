@@ -20,11 +20,12 @@
       </Text>
       <TableView fx:id="tblMaterial" layoutX="73.0" layoutY="348.0" prefHeight="230.0" prefWidth="913.0">
          <columns>
-            <TableColumn fx:id="colMaterialId" prefWidth="151.0" text="Material_Id" />
-            <TableColumn fx:id="colMaterialdescription" prefWidth="201.0" text="Material_Description" />
-            <TableColumn fx:id="colMaterialType" prefWidth="178.0" text="Material_Type" />
-            <TableColumn fx:id="colMaterialPrice" prefWidth="233.0" text="Material_Price" />
-            <TableColumn fx:id="colMaterialQty" prefWidth="149.0" text="Material_qty" />
+            <TableColumn fx:id="colMaterialId" prefWidth="112.0" text="Material_Id" />
+            <TableColumn fx:id="colMaterialdescription" prefWidth="170.0" text="Material_Description" />
+            <TableColumn fx:id="colMaterialType" prefWidth="159.0" text="Material_Type" />
+            <TableColumn fx:id="colMaterialPrice" prefWidth="163.0" text="Material_Price" />
+            <TableColumn fx:id="colMaterialQty" prefWidth="139.0" text="Material_qty" />
+            <TableColumn fx:id="colSupEmail" prefWidth="169.0" text="Supplier_email" />
          </columns>
       </TableView>
       <JFXButton fx:id="btnUpdateMaterial" buttonType="RAISED" layoutX="294.0" layoutY="295.0" onAction="#btnUpdateMaterialOnAction" prefHeight="43.0" prefWidth="128.0" style="-fx-background-color: #55E6C1;" text="      Update" textAlignment="CENTER" textFill="WHITE">

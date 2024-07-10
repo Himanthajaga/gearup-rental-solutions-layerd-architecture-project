@@ -230,10 +230,10 @@ public class AdminFormController {
 
         Admin admin = new Admin(adminId, adminName, adminPassword,confirmPassword,adminEmail);
         try {
-            boolean isUpdated = adminBO.updateAdmin(new AdminDTO(adminId, adminName, adminPassword, confirmPassword, adminEmail));
+            boolean isUpdated = adminBO.updateAdmin(new AdminDTO(admin.getA_id(), admin.getA_name(), admin.getA_password(), admin.getA_confirmPassword(), admin.getA_email()));
             if (isUpdated) {
                 new Alert(Alert.AlertType.CONFIRMATION, "Updated..").show();
-               adminList.add(new AdminDTO(adminId, adminName, adminPassword, confirmPassword, adminEmail));
+               adminList.add(new AdminDTO(admin.getA_id(), admin.getA_name(), admin.getA_password(), admin.getA_confirmPassword(), admin.getA_email()));
                 loadAdminTable();
                 clearFields();
             } else {

@@ -13,6 +13,7 @@ public class BuildingMaterialTm {
     private String colMaterialType;
     private String colMaterialPrice;
     private int colMaterialQty;
+    private String colSupEmail;
 
 
 }

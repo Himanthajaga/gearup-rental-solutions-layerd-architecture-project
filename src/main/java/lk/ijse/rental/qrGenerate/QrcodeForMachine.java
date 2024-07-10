@@ -14,7 +14,7 @@ import java.util.Map;
 
 public class QrcodeForMachine {
     public static void CreateQr(String id){
-        String outputImagePath = "C:\\Users\\jgkin\\IdeaProjects\\gearup-rental-solutions\\src\\main\\resources\\QrImage\\" + id + ".png";
+        String outputImagePath = "C:\\Users\\jgkin\\IdeaProjects\\gearup-rental-solutions-layered-architecture\\src\\main\\resources\\QrImage\\" + id + ".png";
         try {
             generateQRCode(id,outputImagePath);
             System.out.println("New QR code generated and saved to: " + outputImagePath);

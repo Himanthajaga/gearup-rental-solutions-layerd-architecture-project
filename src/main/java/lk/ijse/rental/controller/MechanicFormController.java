@@ -187,7 +187,7 @@ public class MechanicFormController {
 
     @FXML
     void btnDeleteMechanicOnAction(ActionEvent event) {
-        String id = txtMName.getText();
+        String id = txtMidnew.getText();
         try {
             boolean isDeleted = mechanicBO.deleteMechanic(id);
             if (isDeleted) {
@@ -219,11 +219,11 @@ public class MechanicFormController {
 
         Mechanic mechanic = new Mechanic(id, name, address, tele, desc, salary);
         try {
-            boolean isSaved =  mechanicBO.addMechanic(new MechanicDTO(id, name, address, tele, desc, salary));
+            boolean isSaved =  mechanicBO.addMechanic(new MechanicDTO(mechanic.getMec_id(), mechanic.getMec_name(), mechanic.getMec_address(), mechanic.getMec_tel(), mechanic.getMec_desc(), mechanic.getMec_salary()));
             if (isSaved) {
                 new Alert(Alert.AlertType.INFORMATION, "Saved..").show();
                 qrcodeForUser.CreateQr(id);
-                mechanicList.add(new MechanicDTO(id, name, address, tele, desc, salary));
+                mechanicList.add(new MechanicDTO(mechanic.getMec_id(), mechanic.getMec_name(), mechanic.getMec_address(), mechanic.getMec_tel(), mechanic.getMec_desc(), mechanic.getMec_salary()));
                 loadMechanicTable();
                 clearFields();
                 loadNextMechanicId();
@@ -246,11 +246,11 @@ public class MechanicFormController {
 
         Mechanic mechanic = new Mechanic(id, name, address, tele, desc, salary);
         try {
-            boolean isUpdated = mechanicBO.updateMechanic(new MechanicDTO(id, name, address, tele, desc, salary));
+            boolean isUpdated = mechanicBO.updateMechanic(new MechanicDTO(mechanic.getMec_id(), mechanic.getMec_name(), mechanic.getMec_address(), mechanic.getMec_tel(), mechanic.getMec_desc(), mechanic.getMec_salary()));
             if (isUpdated) {
                 new Alert(Alert.AlertType.CONFIRMATION, "Updated..").show();
-                mechanicList.add(new MechanicDTO(id, name, address, tele, desc, salary));
-                loadMechanicTable();
+                mechanicList.add(new MechanicDTO(mechanic.getMec_id(), mechanic.getMec_name(), mechanic.getMec_address(), mechanic.getMec_tel(), mechanic.getMec_desc(), mechanic.getMec_salary()));
+                //loadMechanicTable();
                 clearFields();
             } else {
                 new Alert(Alert.AlertType.WARNING, "Try Again..").show();

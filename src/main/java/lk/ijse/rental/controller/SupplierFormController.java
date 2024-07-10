@@ -81,16 +81,18 @@ public class SupplierFormController {
     private TextField txtSupplierTele;
 
     private List<SupplierDTO> supplierList = new ArrayList<>();
-    SupplierBO supplierBO  = (SupplierBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.Supplier);
+    SupplierBO supplierBO = (SupplierBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.Supplier);
     private QrcodeForMachine qrcodeForUser = new QrcodeForMachine();
+
     public void initialize() throws SQLException, ClassNotFoundException {
 
-        this.supplierList=getAllSuppliers();
+        this.supplierList = getAllSuppliers();
         setCellValueFactory();
         loadSupplierTable();
         loadNextSupplierId();
         setListener();
     }
+
     private void setListener() {
         tblSupplier.getSelectionModel().selectedItemProperty()
                 .addListener((observable, oldValue, newValue) -> {
@@ -138,17 +140,17 @@ public class SupplierFormController {
         paneholder.getChildren().add(registePane);
 
     }
+
     private void setCellValueFactory() {
-        colSupplierEmail.setCellValueFactory(new PropertyValueFactory<>("colSupplierEmail"));
+        colSupplierId.setCellValueFactory(new PropertyValueFactory<>("colSupplierId"));
         colSupplierName.setCellValueFactory(new PropertyValueFactory<>("colSupplierName"));
         colSupplierAddress.setCellValueFactory(new PropertyValueFactory<>("colSupplierAddress"));
         colSupplierTele.setCellValueFactory(new PropertyValueFactory<>("colSupplierTele"));
-        colSupplierId.setCellValueFactory(new PropertyValueFactory<>("colSupplierId"));
-
-
+        colSupplierEmail.setCellValueFactory(new PropertyValueFactory<>("colSupplierEmail"));
 
 
     }
+
     private void loadSupplierTable() {
 
         ObservableList<SupplierTm> tmList = FXCollections.observableArrayList();
@@ -160,7 +162,6 @@ public class SupplierFormController {
                     supplier.getS_address(),
                     supplier.getS_tel(),
                     supplier.getS_email()
-
 
 
             );
@@ -183,23 +184,22 @@ public class SupplierFormController {
         return supplierList;
     }
 
-
     @FXML
     void btnDeleteSupplierOnAction(ActionEvent event) {
         String id = txtSupplierIdnew.getText();
+
         try {
             boolean isDeleted = supplierBO.deleteSupplier(id);
             if (isDeleted) {
-                new Alert(Alert.AlertType.CONFIRMATION, "supplier deleted!").show();
+                new Alert(Alert.AlertType.CONFIRMATION, "customer deleted!").show();
                 loadSupplierTable();
-                supplierList.removeIf(supplier -> supplier.getS_id().equals(id));
-                loadNextSupplierId();
                 clearFields();
             }
         } catch (SQLException | ClassNotFoundException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
         }
     }
+
 
 
 
@@ -217,10 +217,10 @@ public class SupplierFormController {
 
         Supplier supplier = new Supplier(s_id, s_name, s_address, s_tel,s_email);
         try {
-                boolean isSaved = supplierBO.addSupplier(new SupplierDTO(s_id, s_name, s_address, s_tel,s_email));
+                boolean isSaved = supplierBO.addSupplier(new SupplierDTO(supplier.getS_id(), supplier.getS_name(), supplier.getS_address(), supplier.getS_tel(),supplier.getS_email()));
                 if (isSaved) {
                     qrcodeForUser.CreateQr(s_id);
-                    supplierList.add(new SupplierDTO(s_id, s_name, s_address, s_tel,s_email));
+                    supplierList.add(new SupplierDTO(supplier.getS_id(),supplier.getS_name(),supplier.getS_address(),supplier.getS_tel(),supplier.getS_email()));
                     loadSupplierTable();
                     clearFields();
                     loadNextSupplierId();
@@ -273,9 +273,11 @@ public class SupplierFormController {
         String email = txtSupplierEmail.getText();
 
         Supplier supplier = new Supplier(id, name, address, tel,email);
+        System.out.println("awaa");
 
         try {
-            boolean isUpdated = supplierBO.updateSupplier(new SupplierDTO(id, name, address, tel,email));
+            boolean isUpdated = supplierBO.updateSupplier(new SupplierDTO(supplier.getS_id(), supplier.getS_name(), supplier.getS_address(), supplier.getS_tel(),supplier.getS_email()));
+            System.out.println("awaaaaaaa");
             if (isUpdated) {
                 new Alert(Alert.AlertType.CONFIRMATION, "customer updated!").show();
                 loadSupplierTable();

@@ -208,12 +208,12 @@ public class MachineFormController {
         Machine machine = new Machine(id, name, desc, rentalPrice,isAvailable, "0");
 
         try {
-            boolean isAdded = machineBO.addMachine(new MachineDTO(id, name, desc, rentalPrice,isAvailable, "0"));
+            boolean isAdded = machineBO.addMachine(new MachineDTO(machine.getM_Id(),machine.getM_Name(),machine.getM_desc(),machine.getM_rental_price(),machine.getIsAvaiable(),"0"));
 
             if (isAdded) {
                 new Alert(Alert.AlertType.CONFIRMATION, "Saved", ButtonType.OK).show();
                 qrcodeForUser.CreateQr(id);
-                machineList.add(new MachineDTO(id, name, desc, rentalPrice,isAvailable, "0"));
+                machineList.add(new MachineDTO(machine.getM_Id(),machine.getM_Name(),machine.getM_desc(),machine.getM_rental_price(),machine.getIsAvaiable(),"0"));
                 loadMachineTable();
                 clearFields();
                 loadNextMachineId();
@@ -238,11 +238,11 @@ public class MachineFormController {
         Machine machine = new Machine(id, name, desc, rentalPrice,isAvailable, "0");
 
         try {
-            boolean isUpdated = machineBO.updateMachine(new MachineDTO(id, name, desc, rentalPrice,isAvailable, "0"));
+            boolean isUpdated = machineBO.updateMachine(new MachineDTO(machine.getM_Id(),machine.getM_Name(),machine.getM_desc(),machine.getM_rental_price(),machine.getIsAvaiable(),"0"));
 
             if (isUpdated) {
                 new Alert(Alert.AlertType.CONFIRMATION, "Updated", ButtonType.OK).show();
-                machineList.add(new MachineDTO(id, name, desc, rentalPrice,isAvailable, "0"));
+                machineList.add(new MachineDTO(machine.getM_Id(),machine.getM_Name(),machine.getM_desc(),machine.getM_rental_price(),machine.getIsAvaiable(),"0"));
                 loadMachineTable();
                 clearFields();
             } else {

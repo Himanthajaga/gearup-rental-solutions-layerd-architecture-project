@@ -17,7 +17,7 @@ public class SupplierDAOImpl implements SupplierDAO {
         ArrayList<Supplier> allSuppliers = new ArrayList<>();
         ResultSet rst = SQLUtil.execute("SELECT * FROM supplier");
         while (rst.next()) {
-            Supplier supplier = new Supplier(rst.getString("s_email"), rst.getString("s_name"), rst.getString("s_address"), rst.getString("s_tel"),rst.getString("s_id"));
+            Supplier supplier = new Supplier(rst.getString("s_id"), rst.getString("s_name"), rst.getString("s_address"), rst.getString("s_tel"),rst.getString("s_email"));
             allSuppliers.add(supplier);
         }
         return allSuppliers;
@@ -30,7 +30,7 @@ public class SupplierDAOImpl implements SupplierDAO {
 
     @Override
     public boolean update(Supplier entity) throws SQLException, ClassNotFoundException {
-        return SQLUtil.execute("UPDATE supplier SET s_email =?, s_name = ?,s_address = ?,s_tel = ? WHERE s_id = ?", entity.getS_email(), entity.getS_name(), entity.getS_address(), entity.getS_tel(),entity.getS_id());
+        return SQLUtil.execute("UPDATE supplier SET s_email=?,s_name=?, s_address=?, s_tel=? WHERE s_id=?",  entity.getS_email(),entity.getS_name(), entity.getS_address(), entity.getS_tel(),entity.getS_id());
     }
 
     @Override

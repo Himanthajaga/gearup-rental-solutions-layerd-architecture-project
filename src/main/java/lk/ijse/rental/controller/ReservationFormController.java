@@ -171,7 +171,7 @@ public class ReservationFormController {
             boolean isSaved = reservationBO.addReservation(new ReservationDTO(id, name, date));
             if (isSaved) {
                 new Alert(Alert.AlertType.INFORMATION, "Saved..").show();
-                reservationList.add(new ReservationDTO(id, name, date));
+                reservationList.add(new ReservationDTO(reservation.getR_id(),reservation.getR_type(),reservation.getR_date()));
                 loadReservationTable();
                 clearFields();
                 loadNextReservationid();
@@ -193,7 +193,7 @@ public class ReservationFormController {
 
         Reservation reservation = new Reservation(id, name, reseerDate.getValue().toString());
         try {
-            boolean isUpdated = reservationBO.updateReservation(new ReservationDTO(id, name, reseerDate.getValue().toString()));
+            boolean isUpdated = reservationBO.updateReservation(new ReservationDTO(reservation.getR_id(), reservation.getR_type(), reservation.getR_date()));
             if (isUpdated) {
                 new Alert(Alert.AlertType.CONFIRMATION, "Updated..").show();
                 reservationList.add(new ReservationDTO(id, name, reseerDate.getValue().toString()));

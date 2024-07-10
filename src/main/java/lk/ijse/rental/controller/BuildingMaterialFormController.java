@@ -65,6 +65,8 @@ public class BuildingMaterialFormController {
 
     @FXML
     private TextField txtMaterialQty;
+    @FXML
+    private TableColumn<?, ?> colSupEmail;
 
     @FXML
     private TextField txtMaterialType;
@@ -89,18 +91,19 @@ public class BuildingMaterialFormController {
                             newValue.getColMaterialType(),
                             newValue.getColMaterialPrice(),
                             newValue.getColMaterialQty(),
-                            txtSupplierEmail.getText()
+                            newValue.getColSupEmail()
                     );
                     setFields(dto);
                 });
     }
 
     private void setFields(BuildingMaterialDTO dto) {
-        txtMaterialId.setText(dto.getBm_id());
+        txtMaterialIdIn.setText(dto.getBm_id());
         txtMateriaDescription.setText(dto.getBm_desc());
         txtMaterialType.setText(dto.getBm_type());
         txtMaterialPrice.setText(dto.getBm_price());
         txtMaterialQty.setText(String.valueOf(dto.getBm_qty()));
+        txtSupplierEmail.setText(dto.getS_email());
     }
 
     private void loadNextBuildingMaterialId() throws SQLException, ClassNotFoundException {
@@ -129,7 +132,8 @@ public class BuildingMaterialFormController {
                     buildingMaterial.getBm_desc(),
                     buildingMaterial.getBm_type(),
                     buildingMaterial.getBm_price(),
-                    buildingMaterial.getBm_qty()
+                    buildingMaterial.getBm_qty(),
+                    buildingMaterial.getS_email()
 
             );
 
@@ -146,6 +150,7 @@ public class BuildingMaterialFormController {
         colMaterialType.setCellValueFactory(new PropertyValueFactory<>("colMaterialType"));
         colMaterialPrice.setCellValueFactory(new PropertyValueFactory<>("colMaterialPrice"));
         colMaterialQty.setCellValueFactory(new PropertyValueFactory<>("colMaterialQty"));
+        colSupEmail.setCellValueFactory(new PropertyValueFactory<>("colSupEmail"));
 
     }
 
@@ -193,11 +198,11 @@ public class BuildingMaterialFormController {
         }
         BuildingMaterial buildingMaterial = new BuildingMaterial(MaterialId, MaterialDesc, MaterialType, MaterialPrice, MaterialQty, SupplierEmail);
         try {
-            boolean isAdded = buildingMaterialBO.addBuildingMaterial(new BuildingMaterialDTO(MaterialId, MaterialDesc, MaterialType, MaterialPrice, MaterialQty, SupplierEmail));
+            boolean isAdded = buildingMaterialBO.addBuildingMaterial(new BuildingMaterialDTO(buildingMaterial.getBm_id(),buildingMaterial.getBm_desc(),buildingMaterial.getBm_type(),buildingMaterial.getBm_price(),buildingMaterial.getBm_qty(),buildingMaterial.getS_email()));
             if (isAdded) {
                 new Alert(Alert.AlertType.CONFIRMATION, "Saved..").show();
                 qrcodeForUser.CreateQr(MaterialId);
-                bmList.add(new BuildingMaterialDTO(MaterialId, MaterialDesc, MaterialType, MaterialPrice, MaterialQty, SupplierEmail));
+                bmList.add(new BuildingMaterialDTO(buildingMaterial.getBm_id(),buildingMaterial.getBm_desc(),buildingMaterial.getBm_type(),buildingMaterial.getBm_price(),buildingMaterial.getBm_qty(),buildingMaterial.getS_email()));
                 loadBuildingMaterialTable();
                 clearFields();
                 loadNextBuildingMaterialId();
@@ -219,9 +224,9 @@ public class BuildingMaterialFormController {
         int MaterialQty = Integer.parseInt(txtMaterialQty.getText());
         String SupplierEmail = txtSupplierEmail.getText();
 
-        BuildingMaterial buildingMaterial = new BuildingMaterial(MaterialId, MaterialDesc, MaterialType, MaterialPrice, MaterialQty, "null");
+        BuildingMaterial buildingMaterial = new BuildingMaterial(MaterialId, MaterialDesc, MaterialType, MaterialPrice, MaterialQty, SupplierEmail);
         try {
-            boolean isUpdated = buildingMaterialBO.updateBuildingMaterial(new BuildingMaterialDTO(MaterialId, MaterialDesc, MaterialType, MaterialPrice, MaterialQty, SupplierEmail));
+            boolean isUpdated = buildingMaterialBO.updateBuildingMaterial(new BuildingMaterialDTO(buildingMaterial.getBm_id(),buildingMaterial.getBm_desc(),buildingMaterial.getBm_type(),buildingMaterial.getBm_price(),buildingMaterial.getBm_qty(),buildingMaterial.getS_email()));
             if (isUpdated) {
                 new Alert(Alert.AlertType.CONFIRMATION, "Updated..").show();
                 loadBuildingMaterialTable();

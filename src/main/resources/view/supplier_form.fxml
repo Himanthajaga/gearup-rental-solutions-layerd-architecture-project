@@ -107,7 +107,7 @@
             <Image url="@../asserts/animated%20icons/icons8-cash%20anaimated.gif" />
          </image>
       </ImageView>
-      <Label fx:id="txtSupplierId" layoutX="161.0" layoutY="99.0" prefHeight="40.0" prefWidth="188.0">
+      <Label fx:id="txtSupplierId" layoutX="255.0" layoutY="64.0" prefHeight="40.0" prefWidth="188.0">
          <font>
             <Font name="Calibri Bold" size="18.0" />
          </font>

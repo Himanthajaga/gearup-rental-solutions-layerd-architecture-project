@@ -29,9 +29,10 @@ public class BokkingDAOImpl implements BokkingDAO {
 
     @Override
     public boolean update(Bokking entity) throws SQLException, ClassNotFoundException {
-        return SQLUtil.execute("UPDATE bokking SET b_date=?,c_email = ?,m_id = ? WHERE b_id = ?", entity.getBokkingDate(), entity.getCustomerEmail(), entity.getMachineId(), entity.getBokkingId());
+        return SQLUtil.execute("UPDATE bokking SET b_date = ?,c_email = ?,m_id = ? WHERE b_id = ?", entity.getBokkingDate(), entity.getCustomerEmail(), entity.getMachineId(), entity.getBokkingId());
 
     }
+
 
     @Override
     public boolean exist(String id) throws SQLException, ClassNotFoundException {

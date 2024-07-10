@@ -18,19 +18,19 @@ public class SupplierBOIpml implements SupplierBO {
         ArrayList<SupplierDTO> allSuppliers = new ArrayList<>();
         ArrayList<Supplier> all = supplierDAO.getAll();
         for (Supplier c : all) {
-            allSuppliers.add(new SupplierDTO(c.getS_email(),c.getS_name(),c.getS_address(),c.getS_tel(),c.getS_id()));
+            allSuppliers.add(new SupplierDTO(c.getS_id(),c.getS_name(),c.getS_address(),c.getS_tel(),c.getS_email()));
         }
         return allSuppliers;
     }
 
     @Override
     public boolean addSupplier(SupplierDTO dto) throws SQLException, ClassNotFoundException {
-        return supplierDAO.add(new Supplier(dto.getS_email(),dto.getS_name(),dto.getS_address(),dto.getS_tel(),dto.getS_id()));
+        return supplierDAO.add(new Supplier(dto.getS_id(),dto.getS_name(),dto.getS_address(),dto.getS_tel(),dto.getS_email()));
     }
 
     @Override
     public boolean updateSupplier(SupplierDTO dto) throws SQLException, ClassNotFoundException {
-        return supplierDAO.update(new Supplier(dto.getS_email(),dto.getS_name(),dto.getS_address(),dto.getS_tel(),dto.getS_id()));
+        return supplierDAO.update(new Supplier(dto.getS_id(),dto.getS_name(),dto.getS_address(),dto.getS_tel(),dto.getS_email()));
     }
 
     @Override
